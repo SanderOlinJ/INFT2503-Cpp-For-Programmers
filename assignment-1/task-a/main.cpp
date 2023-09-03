@@ -9,7 +9,7 @@ int main() {
     string openingOutput = "Please input " + to_string(length) + " temperatures:\n";
     cout << openingOutput;
     for (int i = 0; i < 5; i++) {
-        string output = "Temperature nr " + to_string(i) + ": ";
+        string output = "Temperature nr " + to_string(i) + ":";
         cout << output;
         double input;
         cin >> input;
