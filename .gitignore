@@ -33,7 +33,6 @@
 
 .idea/
 cmake-build-debug
-CMakeLists.txt
 
 *.tar
 *.tar.gz
