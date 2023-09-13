@@ -1,5 +1,4 @@
 #include <iostream>
-#include "string.h"
 
 using namespace std;
 
@@ -24,7 +23,5 @@ int main() {
 
     cout << p << ", " << *p << " | " << q << ", " << *q << endl;
 
-    char *line = 0;
-    strcpy(line, "Dette er en tekst");
     return 0;
 }
