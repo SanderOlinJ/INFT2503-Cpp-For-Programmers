@@ -4,12 +4,14 @@ using namespace std;
 
 int main(){
 
-    int a = 5;
-    int &b = a; //Reference needs to refer to a variable
-    int *c;
-    c = &b;
-    a = b + *c; // a and b are not pointers
-    b = 2; // cannot modify a reference
+    char text[5]; // bruh
+    char *pointer = text; // bruh
+    char search_for = 'e';
+    cin >> text;
+    while (*pointer != search_for){
+        *pointer = search_for;
+        pointer++;
+    }
 
     return 0;
 }
