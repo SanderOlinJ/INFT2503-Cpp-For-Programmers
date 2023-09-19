@@ -185,4 +185,6 @@ int main() {
     cout << board << endl;
     board.move_piece("f6", "e8");
     cout << board << endl;
+
+    return 0;
 }
