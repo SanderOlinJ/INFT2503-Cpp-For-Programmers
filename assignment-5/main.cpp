@@ -12,11 +12,11 @@ public:
 
     class Piece {
     public:
-        Piece(Color color) : color(color) {}
-        virtual ~Piece() {}
+        explicit Piece(Color color) : color(color) {}
+        virtual ~Piece() = default;
 
         Color color;
-        string color_string() const {
+        [[nodiscard]] string color_string() const {
             if (color == Color::WHITE)
                 return "white";
             else
@@ -24,27 +24,28 @@ public:
         }
 
         /// Return color and type of the chess piece
-        virtual string type() const = 0;
+        [[nodiscard]] virtual string type() const = 0;
 
-        virtual string short_type() const = 0;
+        /// Return a short abbreviation of the piece (Ex: White King = 'W-Ki').
+        [[nodiscard]] virtual string short_type() const = 0;
 
         /// Returns true if the given chess piece move is valid
-        virtual bool valid_move(int from_x, int from_y, int to_x, int to_y) const = 0;
+        [[nodiscard]] virtual bool valid_move(int from_x, int from_y, int to_x, int to_y) const = 0;
     };
 
     class King : public Piece {
     public:
-        King(Color color) : Piece(color) {};
-        string type() const {
+        explicit King(Color color) : Piece(color) {};
+        [[nodiscard]] string type() const override {
             return color_string() + " king";
         }
 
-        string short_type() const {
+        [[nodiscard]] string short_type() const override {
             string short_type = ((color == Color::WHITE) ? "W" : "B");
             return short_type  + "-Ki";
         }
 
-        bool valid_move(int from_x, int from_y, int to_x, int to_y) const {
+        [[nodiscard]] bool valid_move(int from_x, int from_y, int to_x, int to_y) const override {
             int absX = abs(to_x - from_x);
             int absY = abs(to_y - from_y);
 
@@ -56,15 +57,15 @@ public:
 
     class Knight : public Piece {
     public:
-        Knight(Color color) : Piece(color) {};
-        string type() const {
+        explicit Knight(Color color) : Piece(color) {};
+        [[nodiscard]] string type() const override {
             return color_string() + " knight";
         }
-        string short_type() const {
+        [[nodiscard]] string short_type() const override {
             string short_type = ((color == Color::WHITE) ? "W" : "B");
             return short_type  + "-Kn";
         }
-        bool valid_move(int from_x, int from_y, int to_x, int to_y) const {
+        [[nodiscard]] bool valid_move(int from_x, int from_y, int to_x, int to_y) const override {
             int absX = abs(to_x - from_x);
             int absY = abs(to_y - from_y);
 
@@ -102,12 +103,12 @@ public:
                         if (auto king = dynamic_cast<King *>(piece_to.get()))
                             cout << king->color_string() << " lost the game" << endl;
                     } else {
-                        // piece in the from square has the same color as the piece in the to square
+                        // piece in the from-square has the same color as the piece in the to-square
                         cout << "can not move " << piece_from->type() << " from " << from << " to " << to << endl;
                         return false;
                     }
                 }
-                piece_to = move(piece_from);
+                piece_to = std::move(piece_from);
                 return true;
             } else {
                 cout << "can not move " << piece_from->type() << " from " << from << " to " << to << endl;
@@ -120,7 +121,7 @@ public:
     }
 
     friend ostream &operator<<(ostream &outputStream, const ChessBoard &chessBoard) {
-        const int squareSize = 6;  // Adjust this value for the desired square size
+        const int squareSize = 6;
         const string emptySquare = string(squareSize, ' ');
 
         outputStream << "      a      b      c      d      e      f      g      h" << endl;
@@ -132,8 +133,6 @@ public:
             for (int col = 0; col < 8; ++col) {
                 if (auto &piece = chessBoard.squares[col][row]) {
                     string pieceLabel = piece->short_type();
-                    // Make sure the piece label is exactly 4 characters wide
-                    pieceLabel.resize(4, ' ');
                     outputStream << " " << pieceLabel << " |";
                 } else {
                     outputStream << emptySquare << "|";
