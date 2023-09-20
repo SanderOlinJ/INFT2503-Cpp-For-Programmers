@@ -40,16 +40,18 @@ int main() {
     while (b > a)
         b -= a;
     print("b = ", b);
-}
 
-// Utskrift:
-// a = 1 / 2
-// b = 3 / 4
-// c = 5 / 1
-// d = 2 / 3
-// b = 5 / 4
-// c = 6 / 1
-// d = 4 / 9
-// c = -55 / 36
-// a + b != c + d
-// b = 1 / 4
+    Fraction fraction1(17,3);
+    Fraction fraction2(14,3);
+    print("17/3  -  3  =  ", fraction1 - 3);
+    print("3  -  17/3  =  ", 3 - fraction1);
+
+    // Task 1b)
+    print("Explain this : ", 5 - 3 - fraction1 - 7 - fraction2);
+    // First 5 - 3  (operator-(int integer1, int integer2))
+    // Then 2 - fraction1 (friend Fraction operator-(int integer, const Fraction &fraction))
+    // Then (-11/3) - 7   (Fraction::operator-(int integer) const)
+    // Finally (-32/3) - fraction2  (Fraction operator-(const Fraction &other) const)
+
+    return 0;
+}

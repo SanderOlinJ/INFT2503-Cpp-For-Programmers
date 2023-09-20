@@ -1,6 +1,7 @@
 #ifndef TASK_1_FRACTION_H
 #define TASK_1_FRACTION_H
 #pragma once
+#import <iostream>
 
 class Fraction {
 public:
@@ -15,8 +16,10 @@ public:
     Fraction operator*(const Fraction &other) const;
     Fraction operator/(const Fraction &other) const;
     Fraction operator-() const;
-    Fraction &operator++(); // Preinkrement
-    Fraction &operator--(); // Predekrement
+    Fraction operator-(int integer) const;
+    friend Fraction operator-(int integer, const Fraction &other);
+    Fraction &operator++();
+    Fraction &operator--();
     Fraction &operator+=(const Fraction &other);
     Fraction &operator-=(const Fraction &other);
     Fraction &operator*=(const Fraction &other);
@@ -34,4 +37,4 @@ private:
     int compare(const Fraction &other) const;
 };
 
-#endif //TASK_1_FRACTION_H
+#endif

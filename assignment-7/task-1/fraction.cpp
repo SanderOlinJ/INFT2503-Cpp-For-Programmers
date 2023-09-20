@@ -1,8 +1,4 @@
 #include "fraction.h"
-#include <cmath>
-#include <iostream>
-#include <sstream>
-#include <string>
 
 using namespace std;
 
@@ -18,7 +14,7 @@ void Fraction::set(int numberator_, int denominator_) {
         denominator = denominator_;
         reduce();
     } else {
-        throw "nevneren ble null";
+        throw "Denominator was 0";
     }
 }
 
@@ -60,6 +56,20 @@ Fraction Fraction::operator-() const {
     Fraction fraction;
     fraction.numerator = -numerator;
     fraction.denominator = denominator;
+    return fraction;
+}
+
+Fraction Fraction::operator-(int integer) const {
+    Fraction fraction;
+    fraction.set(integer);
+    fraction = *this - fraction;
+    return fraction;
+}
+
+Fraction operator-(int integer, const Fraction &other) {
+    Fraction fraction;
+    fraction.set(integer);
+    fraction = fraction - other;
     return fraction;
 }
 
@@ -115,11 +125,6 @@ bool Fraction::operator>(const Fraction &other) const {
     return (compare(other) > 0) ? true : false;
 }
 
-//-------------------------------------------------------------------
-//
-// Sørg for at nevneren alltid er positiv.
-// Bruker Euclids algoritme for å finne fellesnevneren.
-//
 void Fraction::reduce() {
     if (denominator < 0) {
         numerator = -numerator;
@@ -140,10 +145,6 @@ void Fraction::reduce() {
     denominator /= a;
 }
 
-//-------------------------------------------------------------------
-//
-// Returnerer +1 hvis *this > other, 0 hvis de er like, -1 ellers
-//
 int Fraction::compare(const Fraction &other) const {
     Fraction fraction = *this - other;
     if (fraction.numerator > 0)
